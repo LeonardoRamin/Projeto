@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="layout.xhtml">
+
+<ui:define name="conteudo">
+	<h:form id="form" enctype="multipart/form-data">
+	<title>Cadastro de Veículo</title>
+	<p:breadCrumb>
+    <p:menuitem value="Página inicial" outcome="inicio" />
+    <p:menuitem value="Cadastrar Modelo de Veículo" action="CadastrarVeiculo.xhtml?faces-redirect=true"/>
+</p:breadCrumb>
+<br/>
+		
+		<p:panel header="Cadastrar Modelo de Veículo">
+			<p:panelGrid id="grid" columns="2">
+
+				<p:outputLabel for="model" value="Modelo*"/>
+				<p:inputText id="model" value="#{mBeanVeiculo.veiculo.modelo}"/>
+
+				<p:outputLabel for="apelido" value="Apelido*"/>
+				<p:inputText id="apelido" value="#{mBeanVeiculo.veiculo.apelido}"/>
+
+				<p:outputLabel for="cbxcambio" value="Câmbio"/>
+				<p:selectOneMenu id="cbxcambio" value="#{mBeanVeiculo.veiculo.tipoCambio}">
+					<f:selectItem itemLabel="Manual" itemValue="Manual"/>
+					<f:selectItem itemLabel="Automático" itemValue="Automático"/>
+				</p:selectOneMenu>
+				
+				<p:outputLabel for="marcas" value="Marca*"/>
+				<p:selectOneMenu id="marcas" converter="converteMarca" value="#{mBeanVeiculo.veiculo.marca}">
+					<f:selectItem itemLabel="Selecione uma marca" itemValue="#{null}"/>
+					<f:selectItems value="#{mBeanMarca.marcas}" var="marca" itemLabel="#{marca.nome}"/>
+				</p:selectOneMenu>
+				
+				<p:outputLabel for="ano" value="Ano*" />
+				<p:inputMask id="ano" mask="9999" placeholder="9999" title="Digite o ano do lançamento do carro" 
+				value="#{mBeanVeiculo.veiculo.ano}" converter="javax.faces.Integer"/>
+					
+				<p:outputLabel for="fileveiculo">Foto*</p:outputLabel>
+				<p:fileUpload id="fileveiculo"	cancelLabel="Cancelar" 
+				fileLimit="1" fileLimitMessage="Só se pode cadastrar uma imagem"
+				label="Inserir" fileUploadListener="#{mBeanVeiculo.carregarArquivo}"
+				allowTypes="/(\.|\/)(gif|jpe?g|png\.p7m)$/"/>
+				
+			</p:panelGrid>
+			<br/>
+			<p:messages autoUpdate="true" showDetail="true" showIcon="true" showSummary="true" />
+			<br/>
+			<p:commandButton value="Salvar" actionListener="#{mBeanVeiculo.salvar()}" >
+				<p:ajax update="grid dtv"/>
+					<p:resetInput target="grid"/>
+				</p:commandButton>
+			<br/>
+			<br/>
+			
+			<p:dataTable id="dtv"  value="#{mBeanVeiculo.veiculos}" var="veiculo" emptyMessage="Não há modelos de veículos cadastrados">
+				<p:column headerText="Nome"  sortBy="#{veiculo.modelo}">
+					<h:outputText value="#{veiculo.modelo}"/>
+				</p:column>
+				<p:column headerText="Apelido"  sortBy="#{veiculo.apelido}">
+					<h:outputText readonly="true" value="#{veiculo.apelido}"/>
+				</p:column>
+				<p:column headerText="Câmbio" sortBy="#{veiculo.tipoCambio}">
+					<h:outputText value="#{veiculo.tipoCambio}"/>
+				</p:column>
+				<p:column headerText="Ano" sortBy="#{veiculo.ano}">
+					<h:outputText value="#{veiculo.ano}"/>
+				</p:column>
+				<p:column headerText="Marca" sortBy="#{veiculo.marca.nome}">
+					<h:outputText value="#{veiculo.marca.nome}"/>
+				</p:column>
+				<p:column headerText="Foto" width="45">
+					<h:graphicImage library="Imagens/Cadastro/Veiculo" name="#{veiculo.foto.nome}" height="70" width="76"/>
+				</p:column>
+				<p:column headerText="Gerenciar" width="90">
+					<p:commandButton icon="fa fa-edit" title="Editar" update="form:grid">
+						<f:setPropertyActionListener value="#{veiculo}" target="#{mBeanVeiculo.veiculo}"/>
+					</p:commandButton>
+					<p:commandButton icon="fa fa-trash" action="#{mBeanVeiculo.deletar}" title="Deletar" >
+						<f:setPropertyActionListener value="#{veiculo}" target="#{mBeanVeiculo.veiculo}"/>
+						<p:confirm header="Deletar veículo" icon="ui-icon-alert" message="Tem certeza disto?"/>
+					</p:commandButton>				
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+		
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+      		 <p:commandButton value="Sim"  type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+       		 <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    	</p:confirmDialog>
+	</h:form>
+ </ui:define>
+ </ui:composition>
+</html>

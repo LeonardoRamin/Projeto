@@ -1,0 +1,76 @@
+@CHARSET "ISO-8859-1";
+
+/*
+   pca.css
+   PI_IV
+   
+   Created by Giada on 2015-12-02.
+   Copyright 2015 Giada. All rights reserved.
+*/
+
+
+#divVeiculo{
+	position: relative;
+	float: right; 
+	top: 22px;
+}
+
+#divPeca{
+	position: relative;
+	float: left;
+	top: 22px;
+}
+
+#paragrafo{
+	color:	white; 
+	text-align: center;
+	font-weight: bolder;  
+	text-transform: uppercase; 
+	margin-top: 350px;
+	background-color: black; 
+}
+
+
+
+.fonte{
+	font-size: 20px; 
+	color: white;
+	font-weight: bolder; 
+}
+
+.titulo{
+	font-size: 70px; 
+	color: white;
+}
+
+.menu{
+	top: -240px;
+}
+
+/*.corpo{
+	background-color: black;
+	background-image: url(resources/Imagens/mustangt.jpg);
+	background-repeat: round;
+	background-position: center center;
+	background-attachment: fixed;
+}*/
+
+
+/*#suadiv{
+	width:100%; height:auto;
+	min-height:100%; /* aqui é onde acontece a mágica, a propriedade height:auto e min-height: 100% fará com que esta div ocupe sempre a altura total do navegador, mesmo quando redimensionado */
+ 	/*background:black;
+
+}*/
+
+b.classe1{
+	font-size: 25px;
+	color: #000000;
+}
+
+b.classe1:hover{
+ 	color: #D6BCD6; 
+ }
+ 
+
+

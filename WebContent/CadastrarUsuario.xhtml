@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="layout.xhtml">
+
+<ui:define name="conteudo">
+
+
+	<h:form id="form">
+	<title>Cadastro de Usuário</title>
+<p:breadCrumb>
+    <p:menuitem value="Página inicial" outcome="inicio" />
+    <p:menuitem value="Cadastrar-se" action="CadastrarUsuario.xhtml?faces-redirect=true" />
+</p:breadCrumb>
+<br/>
+
+		<p:panel id="cadastro" header="Cadastrar-se" >
+			<p:panelGrid columns="2" >
+				<p:outputLabel for="txtnome" value="Nome*"></p:outputLabel>
+				<p:inputText id="txtnome" size="40" value="#{mBeanUsuario.usuario.nome}">
+				<p:tooltip for="txtnome" value="Insira o nome completo" />
+				</p:inputText>
+
+				<p:outputLabel for="txtemail" value="Email*"></p:outputLabel>
+				<p:autoComplete id="txtemail" value="#{mBeanUsuario.usuario.email}"
+					 size="40" completeMethod="#{mBeanUsuario.autoEmail}"/>
+					
+
+				<p:outputLabel for="apelido" value="Login*"></p:outputLabel>
+				<p:inputText id="apelido" value="#{mBeanUsuario.usuario.login}"></p:inputText>
+					
+				<p:outputLabel for="txtsenha" value="Senha*"></p:outputLabel>
+				<p:password id="txtsenha" value="#{mBeanUsuario.usuario.senha}" match="txtcsenha" feedback="true"
+				promptLabel="Insira a senha" weakLabel="Fraco"
+                    goodLabel="Médio" strongLabel="Forte" ></p:password>
+					
+
+				<p:outputLabel for="txtcsenha" value="Confirmar senha*"></p:outputLabel>
+				<p:password id="txtcsenha" value="#{mBeanUsuario.usuario.senha}"></p:password>
+
+				<p:outputLabel for="tipo" value="Tipo" />
+				<p:selectOneRadio id="tipo" value="#{mBeanUsuario.usuario.tipo}"
+					valueChangeListener="#{mBeanUsuario.maskara}" required="true" >
+					<f:selectItem itemLabel="Pessoa Fisica" itemValue="Pessoa Fisica" />
+					<f:selectItem itemLabel="Pessoa Juridica" itemValue="Pessoa Juridica" />
+					<p:ajax update="cp cplabel"></p:ajax>
+				</p:selectOneRadio>
+				
+				<p:outputLabel id="cplabel" for="cp" value="#{mBeanUsuario.label}*"/>
+				<p:inputMask id="cp" mask="999.999.999.**" placeholder="999.999.999.**" binding="#{mBeanUsuario.mask}"
+				value="#{mBeanUsuario.usuario.cadastroPessoal}"/>
+				
+				 <p:outputLabel for="country" value="Estado" />
+            <p:selectOneMenu id="country"  valueChangeListener="#{mBeanUsuario.valor}" >
+            	<p:ajax update="cidade" />
+                <f:selectItem itemLabel="Selecione o estado" itemValue="0" />
+                <f:selectItems value="#{mBeanEstado.estados}" var="estado" itemLabel="#{estado.nomeEstado}" itemValue="#{estado.id}" />
+            </p:selectOneMenu>
+ 
+            <p:outputLabel for="cidade" value="Cidade*" />
+            <p:selectOneMenu id="cidade" converter="javax.faces.Long" value="#{mBeanUsuario.usuario.cidade.id}" >
+                <f:selectItem itemLabel="Selecione a cidade" itemValue="#{null}" noSelectionOption="true" />
+                <f:selectItems value="#{mBeanUsuario.cidades}" var="city" itemLabel="#{city.nomeCidade}" itemValue="#{city.id}"/>
+       		</p:selectOneMenu>
+				
+				
+				<p:outputLabel  value="Telefone*"/>
+				<h:panelGroup>
+					<p:inputMask id="ddd" widgetVar="telefone" label="DDD" mask="99" size="1" value="#{mBeanUsuario.t.DDD}" placeholder="DDD"/>
+						<h:outputText value=" "/>
+					<p:inputMask id="numero" widgetVar="telefone" label="Número" mask="99999999?9" 
+						size="7"  value="#{mBeanUsuario.t.numero}" placeholder="Número" />
+						<h:outputText value=" "/>
+						<p:commandButton value="+"  action="#{mBeanUsuario.addTelefone}"  
+						update="telefonelist ddd numero">
+							<p:resetInput target="ddd numero"/>
+						</p:commandButton>
+				</h:panelGroup>
+				
+				</p:panelGrid>
+				<p:dataList id="telefonelist" value="#{mBeanUsuario.telefones}" var="tele" emptyMessage="Sem Telefones"
+				type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
+				<f:facet name="header">Telefones</f:facet>
+					<p:commandLink styleClass="ui-icon ui-icon-minus" title="Remover" style="float:left;margin-right:10px"
+					action="#{mBeanUsuario.remover()}" update="telefonelist">
+						<f:setPropertyActionListener value="#{tele}" target="#{mBeanUsuario.t}"></f:setPropertyActionListener>
+						<h:outputText value="#{tele.toString()}"/>
+					</p:commandLink>
+					<h:outputText value="#{tele.toString()}"/>
+				</p:dataList>
+				<p:commandButton value="-" action="#{mBeanUsuario.removeTelefone}" title="Remove todos os telefones"
+				 update="telefonelist"/>
+	
+			<p:messages showIcon="true" showSummary="true" autoUpdate="true" showDetail="true"/>
+			<p:commandButton value="Cadastrar" action="#{mBeanUsuario.salvar}" update="cadastro">
+				<p:resetInput target="cadastro"/>
+			</p:commandButton>
+		</p:panel>
+	
+	
+	</h:form>
+	</ui:define>
+	</ui:composition>
+</html>

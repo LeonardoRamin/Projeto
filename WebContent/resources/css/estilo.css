@@ -1,0 +1,35 @@
+@CHARSET "ISO-8859-1";
+.texto {
+    border: 1px inset;
+    background-color: #D3D3D3;
+    color: #000000;
+}
+.botao {
+    background-color: #D2691E;
+    color: #FFFFFF;
+    border: 1px outset;
+}
+.rotulo {
+    color: #3A8A9E;
+    
+}
+
+.login{
+	
+   font-size: 15px;
+   color: #3A8A9E;
+   text-align: right;
+   right: 20px;  
+ }
+ b.classe1:hover{
+ 	color: #D6BCD6; 
+ }
+#login-dialog { 
+	width: 260px; margin: auto; margin-top: 150px; 
+} 
+	
+.grid-login { 
+	background-color: #f2f2f2; border-radius: 8px; border: 1px solid #ccc; margin-top: 8px; padding: 10px; width: 100% 
+}
+
+

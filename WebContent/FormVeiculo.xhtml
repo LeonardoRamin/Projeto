@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="layout.xhtml">
+
+<ui:define name="conteudo">
+	<h:form>
+	<title>#{mBeanLogin.anuncio.veiculo.modelo}</title>
+	<p:breadCrumb>
+    		<p:menuitem value="Página inicial" outcome="inicio" />
+    		<p:menuitem value="#{mBeanLogin.anuncio.veiculo.modelo}" action="FormVeiculo.xhtml?faces-redirect=true"/>
+		</p:breadCrumb>
+	<br/>
+		<p:panel header="Visualizar">
+			<p:panelGrid id="grid" columns="2">
+				
+				Anunciante
+				<h:outputText value="#{mBeanLogin.anuncio.anunciante.nome}"/>
+				
+				Modelo
+				<h:outputText value="#{mBeanLogin.anuncio.veiculo.modelo}"/>
+
+				Descrição do anuncio
+				<p:inputTextarea id="descricao"	value="#{mBeanLogin.anuncio.descricao}" autoResize="true"  
+				cols="100" readonly="true" />
+				
+				Acessórios
+				<p:dataList emptyMessage="Sem Acessórios" value="#{mBeanLogin.anuncio.acessorios}" var="ac">
+					<h:outputText value="#{ac.nome}" />
+				</p:dataList>
+				
+				
+				Fotos
+				<p:galleria var="foto" value="#{mBeanLogin.anuncio.foto}" panelWidth="500" panelHeight="313">
+					<p:graphicImage library="Imagens/Anuncio/Veiculo" name="#{foto.nome}" width="805px" height="313px" />
+				</p:galleria>
+				
+				
+				Valor
+				<h:outputText value="#{mBeanLogin.anuncio.valorFinal}">
+					<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR"/>
+				</h:outputText>
+				
+				</p:panelGrid>
+				<p:commandButton value="Compra" onclick="PF('dialogoemail').show()"  />
+			
+				<p:messages showDetail="true" showSummary="true" autoUpdate="true" />
+		</p:panel>
+		
+		<p:dialog id="email" modal="true" widgetVar="dialogoemail" header="Enviar email">
+			OBS: Seu nome, e-mail e telefone(s) serão enviados junto com a mensagem!
+			<br/>
+			Assunto:<p:spacer width="10px"/>
+			<p:inputText value="#{mBeanAnuncio.assunto}" maxlength="20" size="20"/>
+			<p:editor widgetVar="editor" value="#{mBeanAnuncio.mensagem}"
+			controls="bold italic underline strikethrough subscript superscript font size color">
+			</p:editor>
+			<br/>
+			<p:commandButton value="Enviar" actionListener="#{mBeanAnuncio.getEmail()}" oncomplete="PF('dialogoemail').hide()" 
+			update="email"/>
+		</p:dialog>
+		
+	</h:form>
+	</ui:define>
+	</ui:composition>
+</html>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="layout.xhtml">
+
+<ui:define name="conteudo">
+	<h:form id="form">
+		<title>Cadastro de Peça</title>
+		<p:breadCrumb>
+    <p:menuitem value="Página inicial" outcome="inicio" />
+    <p:menuitem value="Cadastrar Peça-Base" action="CadastrarPeca.xhtml?faces-redirect=true"/>
+</p:breadCrumb>
+<br/>
+		<p:panel header="Cadastrar Peça-Base">
+			<p:panelGrid id="grid" columns="2">
+	
+
+				<p:outputLabel for="txtnome" value="Nome*"  />
+				<p:inputText id="txtnome" size="40" value="#{mBeanPeca.peca.nome}">
+					<p:tooltip for="txtnome" value="Insira o nome da peça" />
+				</p:inputText>
+
+				<p:outputLabel for="txtdesc" value="Descrição*" />
+				<p:inputTextarea id="txtdesc" rows="10" cols="100"
+					value="#{mBeanPeca.peca.descricao}" maxlength="1000"/>
+
+				<p:outputLabel for="fixo" value="É fixa?" />
+				<p:selectBooleanButton id="fixo" converter="javax.faces.Boolean" offLabel="Não" onLabel="Sim"
+					value="#{mBeanPeca.peca.fixo}" />
+
+				<p:outputLabel for="dpt" value="Departamento*" />
+				<p:selectOneMenu id="dpt"
+					value="#{mBeanPeca.peca.departamento}"
+					converter="converteDepartamento">
+					<f:selectItem itemLabel="Selecione um departamento" itemValue="#{null}" />
+					<f:selectItems value="#{mBeanDepartamento.listar()}"  />
+				</p:selectOneMenu>
+				
+				<p:outputLabel for="file">Foto*</p:outputLabel>
+				<p:fileUpload id="file" label="Inserir" fileLimit="1" 
+				fileLimitMessage="Só se pode inserir uma imagem modelo"  
+				cancelLabel="Cancelar" allowTypes="/(\.|\/)(gif|jpe?g|png\.p7m)$/"
+				fileUploadListener="#{mBeanPeca.carregarArquivo}"/>	
+			</p:panelGrid>
+				<p:messages showIcon="true" autoUpdate="true" showSummary="true" showDetail="true" />
+				<p:commandButton value="Salvar" actionListener="#{mBeanPeca.salvar()}" update="grid dtp">
+					<p:resetInput target="grid"/>
+				</p:commandButton>
+				<p:commandButton value="Nova peça" actionListener="#{mBeanPeca.reset()}" update="grid">
+					<p:resetInput target="grid"/>
+				</p:commandButton>
+			<br/>
+			<br/>
+			
+			<p:dataTable id="dtp"  value="#{mBeanPeca.pecas}" var="peca" emptyMessage="Não há peças cadastradas">
+				<p:column headerText="Nome"  sortBy="#{peca.nome}">
+					<h:outputText value="#{peca.nome}"/>
+				</p:column>
+				<p:column headerText="Descrição"  sortBy="#{peca.descricao}">
+					<h:inputTextarea readonly="true" value="#{peca.descricao}" rows="4" cols="20"/>
+				</p:column>
+				<p:column headerText="Departamento" sortBy="#{peca.departamento.nome}">
+					<h:outputText value="#{peca.departamento.nome}"/>
+				</p:column>
+				<p:column headerText="Fixa">
+					<h:outputText value="#{peca.fixo ? 'Sim' : 'Não'}"/>
+				</p:column>
+				<p:column headerText="Foto" width="45">
+					<h:graphicImage library="Imagens/Cadastro/Peca" name="#{peca.foto.nome}" height="70" width="76"/>
+				</p:column>
+				<p:column headerText="Gerenciar" width="90">
+					<p:commandButton icon="fa fa-edit" title="Editar" update="form:grid">
+						<f:setPropertyActionListener value="#{peca}" target="#{mBeanPeca.peca}"/>
+					</p:commandButton>
+					<p:commandButton icon="fa fa-trash" action="#{mBeanPeca.deletar()}" title="Deletar" update="form:dtp">
+						<f:setPropertyActionListener value="#{peca}" target="#{mBeanPeca.peca}"/>
+						<p:confirm header="Deletar peça" icon="ui-icon-alert" message="Tem certeza disto?"/>
+					</p:commandButton>				
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+	</ui:define>
+	</ui:composition>
+</html>

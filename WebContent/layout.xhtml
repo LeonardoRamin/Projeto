@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+	<style>
+<!--
+	html, body{
+ 	height:100%; /* aqui definimos que o html e o body terão altura de 100% */
+}
+-->
+</style>
+</h:head>
+<h:body style="background-color: black; background-image: url(resources/Imagens/mustangt.jpg);
+	background-repeat: round;
+	background-position: center center;
+	background-attachment: fixed;">
+	<h:outputStylesheet library="awesome" name="css/font-awesome.css" />
+	<h:outputStylesheet library="css" name="pca.css"/>
+<h:form id="formularioLayout">
+	<p:menubar>
+		<p:menuitem value="Contato" onclick="PF('contato').show()" icon="fa fa-phone" />
+		
+		<p:submenu rendered="#{!mBeanLogin.logado}" label="Usuário" icon="fa fa-users">
+			<p:menuitem value="Entrar" outcome="login" icon="fa fa-arrow-up" />
+		
+			<p:menuitem value="Cadastrar-se" outcome="usuario" icon="fa fa-plus" />
+		</p:submenu>
+		<p:submenu label="Cadastrar" rendered="#{mBeanLogin.admin}" icon="fa fa-plus">
+			<p:menuitem value="Modelo de Veículo" outcome="carro" icon="fa fa-car"/>
+
+			<p:menuitem value="Peça Base" outcome="peça" icon="fa fa-cog"/>
+			
+			<p:menuitem value="Marca" outcome="marca" icon="fa fa-eye"/>
+			
+			<p:menuitem value="Departamento" outcome="departamento" icon="fa fa-bolt"/>
+			
+			<p:menuitem value="Acessórios" outcome="acessório" icon="fa fa-cogs"/>
+			
+			<p:menuitem value="Estado" outcome="estado" icon="fa fa-flag"/>
+			
+			<p:menuitem value="Cidade" outcome="cidade" icon="fa fa-road"/>
+		</p:submenu>
+		
+		<p:submenu label="Anunciar" rendered="#{mBeanLogin.logado}" icon="fa fa-newspaper-o">
+			<p:menuitem value="Veículo" outcome="anuncioVeículo" icon="fa fa-car"/>
+			
+			<p:menuitem value="Peça" outcome="anuncioPeça" icon="fa fa-cog"/>
+		</p:submenu>
+
+		<p:submenu label="Comprar" icon="fa fa-shopping-cart">
+		
+			<p:menuitem value="Veículo" icon="fa fa-car" outcome="pav" />
+
+			<p:menuitem value="Peça" icon="fa fa-cog" outcome="pap"/>
+		
+		</p:submenu>
+	
+	
+	
+		<f:facet name="options">
+			<p:outputLabel id="nomelogin" rendered="#{mBeanLogin.logado}">
+				<b class="classe1">#{mBeanLogin.usuario.nome}</b>
+			</p:outputLabel>
+		</f:facet>
+	
+	</p:menubar>
+		<br/>	
+	
+	
+	
+<p:overlayPanel for="nomelogin" showEffect="blind" >
+    <p:menu>
+    	<p:menuitem value="Minha Conta" outcome="conta" icon="fa fa-user"/>
+    	<p:menuitem value="Sair" action="#{mBeanLogin.logout}" icon="fa fa-power-off" ajax="false"/>
+    </p:menu>
+ </p:overlayPanel>
+    
+    	
+ 	<!-- dialogo - Contato -->
+ 	<p:dialog header="Contato" widgetVar="contato" modal="true" height="100">
+ 		<p:panelGrid columns="2">
+    	<h:outputText value="Telefone" />
+    	(00)0000-000
+    	
+    	<h:outputText value="Email" />
+    	pifacear@outlook.com.br
+    	
+    	<!-- <h:outputText value="Enviar sugestões*" />
+    	<p:inputTextarea id="descricao"	widgetVar="editor" autoResize="true"  
+				cols="100" />
+		
+		Imagem		
+		<p:fileUpload id="file" label="Inserir" fileLimit="1" 
+					fileLimitMessage="Só se pode inserir uma imagem"  cancelLabel="Cancelar" 
+					allowTypes="/(\.|\/)(gif|jpe?g|png\.p7m)$/"
+					/>
+			</p:panelGrid>
+    	<h2>*Se for para cadastrar algo que não tem:</h2>
+    	<ul>
+  			<li> Para veículo:  especifique o modelo (nome), o apelido e a <b>Marca</b>;</li>
+ 		 <li>Para Peça ou Acessório: especifique o nome, o <b>Departamento</b> (localização, ex: porta), se é uma peça/acessório<br/> 
+ 		 fixa(o) ou removivel, e o material (só para acessório, ex: Metal); </li>
+ 		 <li>Para todos divulgue a imagem que gostaria que fosse usada;</li>
+		</ul> -->
+		</p:panelGrid>
+	</p:dialog>   
+ </h:form>
+	<ui:insert name="conteudo"></ui:insert>
+
+	<!-- /container -->
+
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<script src="js/docs.js"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="js/ie10-viewport-bug-workaround.js"></script>
+	
+</h:body>
+</html>

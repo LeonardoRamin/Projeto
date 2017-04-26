@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui"
+xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="layout.xhtml">
+
+<ui:define name="conteudo">
+
+<h:form id="form"> 
+<title>Comprar Peça</title>
+<p:breadCrumb>
+    <p:menuitem value="Página inicial" outcome="inicio" />
+    <p:menuitem value="Comprar Peça" action="PAPeca.xhtml?faces-redirect=true"/>
+</p:breadCrumb>
+<br/>
+   
+   <f:event listener="#{pAP.init()}" type="preRenderComponent"/>
+    <p:messages id="msg" showDetail="true" showIcon="true" showSummary="true"/>
+    
+    <p:dataTable id="dt" selectionMode="single" rowKey="#{anuncio.id}" var="anuncio" value="#{pAP.anuncios}" widgetVar="anunciosTable"
+                 emptyMessage="Não há anuncios de peças!" selection="#{pAP.anuncio}" filteredValue="#{pAP.filteredAnuncios}">
+ 
+	
+        <f:facet name="header">
+            <p:outputPanel>
+                <h:outputText value="Pesquisar Peça:" />
+                <p:inputText id="globalFilter" onkeyup="PF('anunciosTable').filter()" style="width:150px" placeholder="pesquisar"/>
+            </p:outputPanel>
+        </f:facet>
+ 
+        <p:column filterBy="#{anuncio.peca.nome}" headerText="Nome" footerText="contains" filterMatchMode="contains">
+            <h:outputText value="#{anuncio.peca.nome}" />
+        </p:column>
+ 
+        <p:column filterBy="#{anuncio.peca.departamento}" headerText="Departamento" footerText="exact" filterMatchMode="exact">
+            <f:facet name="filter">
+                <p:selectOneMenu onchange="PF('anunciosTable').filter()" >
+                    <f:selectItem itemLabel="Selecione Um" itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItems value="#{pAP.departamentos}" />
+                </p:selectOneMenu>
+            </f:facet>
+            <h:outputText value="#{anuncio.peca.departamento}" />
+        </p:column>
+ 
+ 
+        <p:column filterBy="#{anuncio.peca.fixo}" headerText="Fixo" footerText="equals" filterMatchMode="equals">
+            <f:facet name="filter">
+                <p:selectOneButton converter="javax.faces.Boolean" onchange="PF('anunciosTable').filter()">
+                    <f:selectItem itemLabel="Sim" itemValue="true" />
+                    <f:selectItem itemLabel="Não" itemValue="false" />
+                    <f:selectItem itemLabel="Todas" itemValue="" />
+                </p:selectOneButton>
+            </f:facet>
+            <h:outputText value="#{anuncio.peca.fixo}" />
+        </p:column>
+        
+        <p:column filterBy="#{anuncio.descricao}" headerText="Descrição" footerText="contains" filterMatchMode="contains">
+            <h:outputText value="#{anuncio.descricao}" />
+        </p:column>
+        
+        <p:column filterBy="#{anuncio.valorFinal}" headerText="Preço" footerText="custom (min)" filterFunction="#{pAV.filterByPrice}">
+            <h:outputText value="#{anuncio.valorFinal}">
+                <f:convertNumber currencySymbol="R$" type="currency" locale="pt_BR"/>
+            </h:outputText>
+        </p:column>
+    </p:dataTable>
+    
+
+    <p:contextMenu for="form:dt">
+        <p:menuitem  value="Abrir" action="#{pAP.abrir}" icon="ui-icon-folder-open"/>
+        <p:menuitem value="Editar" action="#{pAP.editar}"  icon="ui-icon-arrowrefresh-1-w" rendered="#{mBeanLogin.admin}"/>
+        <p:menuitem value="Deletar" action="#{mBeanAnuncio.deletar()}" icon="ui-icon-close" ajax="false" rendered="#{mBeanLogin.admin}">
+        	<f:setPropertyActionListener value="#{pAP.anuncio}" target="#{mBeanAnuncio.anuncio}"/>
+        	<p:confirm header="Deletar" message="Tem certeza disso?" icon="ui-icon-alert"/>
+        </p:menuitem>
+    </p:contextMenu> 
+    
+
+   	 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+      		  	<p:commandButton value="Sim"  type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+       		 	<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    		</p:confirmDialog>
+	
+</h:form>
+    </ui:define>
+    </ui:composition>
+</html>

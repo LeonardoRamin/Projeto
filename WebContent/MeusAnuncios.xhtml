@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="layout.xhtml">
+
+<ui:define name="conteudo">
+	<h:form>     
+	<title>Meus Anuncios</title>
+ 
+    <p:breadCrumb>
+    	<p:menuitem value="Página inicial" outcome="inicio" />
+    	<p:menuitem value="Meus Anuncios" action="MeusAnuncios.xhtml?faces-redirect=true" />
+	</p:breadCrumb>
+<br/>
+		<p:menubar>
+            <p:menuitem value="Minha Conta" outcome="conta" />
+            <p:menuitem value="Meus Anuncios" action="MeusAnuncios.xhtml?faces-redirect=true"/>
+    
+            <p:menuitem value="Sair" action="#{mBeanLogin.logout}"/>
+
+        </p:menubar>
+	</h:form>
+
+
+	<h:form id="form">
+	<p:messages autoUpdate="true" showDetail="true" showIcon="true" showSummary="true"/>
+		<p:dataTable id="anuncio" var="anun" paginator="true" rowsPerPageTemplate="5,10,15,20" value="#{mBeanLogin.usuario.anuncios}"
+		emptyMessage="Você não anunciou ainda!" widgetVar="anuncioTable" selection="#{mBeanLogin.anuncio}" >
+		
+			<p:column  headerText="Tipo de Anuncio" width="200">
+			<f:facet name="filter">
+				<p:selectOneButton onchange="PF('anuncioTable').filter()">
+                    <f:selectItem itemLabel="Tudo" itemValue="" />
+                    <f:selectItem itemLabel="Veículo" itemValue="Veículo" />
+                    <f:selectItem itemLabel="Peça" itemValue="Peça" />
+                </p:selectOneButton>
+			</f:facet>
+				<h:outputText value="#{anun.tipoDeAnuncio}" />
+			</p:column>
+			<p:column headerText="Data" priority="2">
+				<h:outputText value="#{anun.data}">
+				 <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+                </h:outputText>
+			</p:column>
+			<p:column  headerText="Descrição" width="370">
+				<p:inputTextarea value="#{anun.descricao}" cols="50" rows="4" autoResize="false" 
+				style="background-color: #E1E2ED;" readonly="true"/>
+			</p:column>
+			<p:column  headerText="Curtidas" width="50">
+			<f:facet name="filter">
+				<p:spinner converter="javax.faces.Integer" min="0" size="1" onchange="PF('anuncioTable').filter()" maxlength="8"/>
+			</f:facet>
+				<h:outputText value="#{anun.curtidas}">
+					<f:converter converterId="javax.faces.Integer"/>
+				</h:outputText>
+			</p:column>
+			<p:column  headerText="Visitas" width="50">
+			<f:facet name="filter">
+				<p:spinner converter="javax.faces.Integer" min="0" size="1" onchange="PF('anuncioTable').filter()" maxlength="8"/>
+			</f:facet>
+				<h:outputText value="#{anun.visitas}">
+					<f:converter converterId="javax.faces.Integer"/>
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Valor Final">
+				<h:outputText value="#{anun.valorFinal}">
+					<f:convertNumber currencySymbol="R$" type="currency" locale="pt_BR"/>
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Gerenciar" >
+				<p:commandButton action="#{mBeanLogin.tipoAnuncio}"  icon="ui-icon-search" title="Ver Anuncio" 
+				 onclick="PF('verAnuncio').show()" update=":form:dialogo :form:tda"  >
+				 	<f:setPropertyActionListener value="#{anun}" target="#{mBeanLogin.anuncio}"/>
+				 </p:commandButton>
+
+				<p:commandButton icon="ui-icon-refresh" title="Editar Anuncio" action="#{mBeanLogin.pagina}">
+					<f:setPropertyActionListener value="#{anun}" target="#{mBeanLogin.anuncio}"/>
+				</p:commandButton>
+				
+				<p:commandButton icon="ui-icon-trash" title="Deletar" action="#{mBeanLogin.deletar()}" >
+				<f:setPropertyActionListener value="#{anun}" target="#{mBeanLogin.anuncio}"/>
+					<p:confirm header="Deletar" message="Tem certeza disso?" icon="ui-icon-alert"/>
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+		
+		<h:outputText id="tda" value="a #{mBeanLogin.anuncio.tipoDeAnuncio}" />
+		
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+      		  	<p:commandButton value="Sim"  type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+       		 	<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    	</p:confirmDialog>
+    	
+    	<p:dialog modal="true" header="Anuncio" widgetVar="verAnuncio"  height="300" resizable="true" 
+    	focus="img">
+    	<p:outputPanel id="dialogo">
+    		<p:remoteCommand actionListener="#{mBeanLogin.vazio()}" autoRun="true" />
+			<p:panelGrid columns="2">
+				<f:facet name="header">
+					<p:galleria id="img" var="foto" value="#{mBeanLogin.anuncio.foto}" panelHeight="300" panelWidth="364">
+						<p:graphicImage library="Imagens/Anuncio/Veiculo" name="#{foto.nome}" height="300" width="363" rendered="#{!mBeanLogin.tipo}"/>
+						<p:graphicImage library="Imagens/Anuncio/Peca" name="#{foto.nome}" height="300" width="363" rendered="#{mBeanLogin.tipo}"/>
+					</p:galleria>
+				</f:facet>
+				
+				Anunciante
+				<h:outputText value="#{mBeanLogin.anuncio.anunciante.nome}"/>
+				
+				<p:outputLabel value="#{mBeanLogin.anuncio.tipoDeAnuncio}"/>
+				<p:outputLabel value="#{mBeanLogin.anuncio.veiculo.modelo}" rendered="#{!mBeanLogin.tipo}"/>
+				<h:outputText value="#{mBeanLogin.anuncio.peca.nome}" rendered="#{mBeanLogin.tipo}" />
+
+				Descrição do anuncio
+				<p:inputTextarea value="#{mBeanLogin.anuncio.descricao}" autoResize="true"  
+				cols="30" readonly="true" />
+				
+				<p:outputLabel value="Acessórios" rendered="#{!mBeanLogin.tipo}"/>
+				<p:dataList emptyMessage="Sem Acessórios" value="#{mBeanLogin.anuncio.acessorios}" var="ac" rendered="#{!mBeanLogin.tipo}">
+					<h:outputText value="#{ac.nome}"  />
+				</p:dataList>
+				
+				<p:outputLabel value="Fixa" rendered="#{mBeanLogin.tipo}"/>
+				<h:selectBooleanCheckbox readonly="true" value="#{mBeanLogin.anuncio.peca.fixo}" rendered="#{mBeanLogin.tipo}">
+					<f:converter converterId="javax.faces.Boolean"/>
+				</h:selectBooleanCheckbox>	
+				
+				Valor
+				<h:outputText value="#{mBeanLogin.anuncio.valorFinal}">
+					<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR"/>
+				</h:outputText>
+			</p:panelGrid>
+			</p:outputPanel>
+		</p:dialog>
+			
+		
+	</h:form>
+</ui:define>
+</ui:composition>
+</html>

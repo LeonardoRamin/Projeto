@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14471008144270" configfile="/PI_IV/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="554" y="380" id="pf14472628746999" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" inlinks="pf14492457635482 pf144952572056414" path="/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="CadastrarUsuario.xhtml" x="770" y="188" id="pf144812746481725" referenceLink="//@navigationRule.1/@navigationCase.2/@toViewId|" inlinks="pf14495255893181" path="/CadastrarUsuario.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="CadastrarMarca.xhtml" x="770" y="572" id="pf144812746481726" referenceLink="//@navigationRule.1/@navigationCase.5/@toViewId|" inlinks="pf14495255893182" path="/CadastrarMarca.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="TelaDeLogin.xhtml" x="338" y="178" id="pf144812746481827" referenceLink="//@navigationRule.1/@navigationCase.1/@toViewId|" outlinks="pf14492457635482" inlinks="pf14495255893183" path="/TelaDeLogin.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="CadastrarPeca.xhtml" id="pf14483028658785" referenceLink="//@navigationRule.1/@navigationCase.6/@toViewId|" inlinks="pf14495255893184" path="/CadastrarPeca.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="CadastrarVeiculo.xhtml" id="pf14483028658786" referenceLink="//@navigationRule.1/@navigationCase.8/@toViewId|" inlinks="pf14495255893185" path="/CadastrarVeiculo.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="AnunciarPeca.xhtml" id="pf14483028658787" referenceLink="//@navigationRule.1/@navigationCase.8/@toViewId|" inlinks="pf14495255893186" path="/AnunciarPeca.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="AnunciarVeiculo.xhtml" id="pf14483028658788" referenceLink="//@navigationRule.1/@navigationCase.9/@toViewId|" inlinks="pf14495255893187" path="/AnunciarVeiculo.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="CadastrarDepartamento.xhtml" id="pf14483028658789" referenceLink="//@navigationRule.1/@navigationCase.3/@toViewId|" inlinks="pf14495255893188" path="/CadastrarDepartamento.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="PAVeiculos.xhtml" id="pf144830296612111" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf14484680575993 pf14487282245930" inlinks="pf14495255893189" path="/PAVeiculos.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="FormVeiculo.xhtml" id="pf14484680575994" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf14484680575993 pf14487282245930" path="/FormVeiculo.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="MinhaConta.xhtml" id="pf14486650460101" referenceLink="//@navigationRule.6/@navigationCase.0/@toViewId|" outlinks="pf14487282245931 pf14487320874222" inlinks="pf14487282245931 pf14489084651370 pf144952558931810" path="/MinhaConta.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="MeusAnuncios.xhtml" id="pf14487320874223" referenceLink="//@navigationRule.6/@navigationCase.1/@toViewId|" outlinks="pf14489084651370 pf14489084651371" inlinks="pf14487320874222 pf14489084651371" path="/MeusAnuncios.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="CadastrarAcessorios.xhtml" id="pf14494181624941" referenceLink="//@navigationRule.1/@navigationCase.13/@toViewId|" inlinks="pf144952558931811" path="/CadastrarAcessorios.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="PAPeca.xhtml" id="pf14494966721761" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf14494966721762" inlinks="pf144952558931812" path="/PAPeca.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="FormPeca.xhtml" id="pf14494966721763" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" inlinks="pf14494966721762" path="/FormPeca.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="*" id="pf144952558931913" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14495255893183 pf14495255893181 pf14495255893188 pf14495255893182 pf14495255893184 pf14495255893185 pf14495255893186 pf14495255893187 pf14495255893189 pf144952558931812 pf144952558931810 pf144952558931811 pf144952572056414 pf14499521431610 pf14500543912070" path="/*"/>
+  <nodes xsi:type="pageflow:PFPage" name="CadastrarEstado.xhtml" id="pf14499521431611" referenceLink="//@navigationRule.1/@navigationCase.4/@toViewId|" inlinks="pf14499521431610" path="/CadastrarEstado.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="CadastrarCidade.xhtml" id="pf14500543912071" referenceLink="//@navigationRule.1/@navigationCase.8/@toViewId|" inlinks="pf14500543912070" path="/CadastrarCidade.xhtml"/>
+  <links id="pf14484680575993" target="pf14484680575994" source="pf144830296612111" outcome="vercarro"/>
+  <links id="pf14487282245930" target="pf14484680575994" source="pf144830296612111" outcome="vercarro"/>
+  <links id="pf14487282245931" target="pf14486650460101" source="pf14486650460101" outcome="conta"/>
+  <links id="pf14487320874222" target="pf14487320874223" source="pf14486650460101" outcome="anuncio"/>
+  <links id="pf14489084651370" target="pf14486650460101" source="pf14487320874223" outcome="conta"/>
+  <links id="pf14489084651371" target="pf14487320874223" source="pf14487320874223" outcome="anuncio"/>
+  <links id="pf14492457635482" target="pf14472628746999" source="pf144812746481827" outcome="sucesso"/>
+  <links id="pf14494966721762" target="pf14494966721763" source="pf14494966721761" outcome="verpeca"/>
+  <links id="pf14495255893183" target="pf144812746481827" source="pf144952558931913" outcome="login"/>
+  <links id="pf14495255893181" target="pf144812746481725" source="pf144952558931913" outcome="usuario"/>
+  <links id="pf14495255893188" target="pf14483028658789" source="pf144952558931913" outcome="departamento"/>
+  <links id="pf14495255893182" target="pf144812746481726" source="pf144952558931913" outcome="marca"/>
+  <links id="pf14495255893184" target="pf14483028658785" source="pf144952558931913" outcome="peça"/>
+  <links id="pf14495255893185" target="pf14483028658786" source="pf144952558931913" outcome="carro"/>
+  <links id="pf14495255893186" target="pf14483028658787" source="pf144952558931913" outcome="anuncioPeça"/>
+  <links id="pf14495255893187" target="pf14483028658788" source="pf144952558931913" outcome="anuncioVeículo"/>
+  <links id="pf14495255893189" target="pf144830296612111" source="pf144952558931913" outcome="pav"/>
+  <links id="pf144952558931812" target="pf14494966721761" source="pf144952558931913" outcome="pap"/>
+  <links id="pf144952558931810" target="pf14486650460101" source="pf144952558931913" outcome="conta"/>
+  <links id="pf144952558931811" target="pf14494181624941" source="pf144952558931913" outcome="acessório"/>
+  <links id="pf144952572056414" target="pf14472628746999" source="pf144952558931913" outcome="inicio"/>
+  <links id="pf14499521431610" target="pf14499521431611" source="pf144952558931913" outcome="estado"/>
+  <links id="pf14500543912070" target="pf14500543912071" source="pf144952558931913" outcome="cidade"/>
+</pageflow:Pageflow>

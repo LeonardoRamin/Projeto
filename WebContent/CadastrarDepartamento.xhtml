@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="layout.xhtml">
+
+<ui:define name="conteudo">
+	<h:form>
+	<title>Cadastro de Departamento</title>
+
+		<p:breadCrumb>
+    <p:menuitem value="Página inicial" outcome="inicio" />
+    <p:menuitem value="Cadastrar Departamento" action="CadastrarDepartamento?faces-redirect=true"/>
+</p:breadCrumb>
+<br/>
+
+		
+		
+		<p:panel header="Cadastrar Departamento">
+			<p:panelGrid id="grid" columns="2">
+	
+
+				<p:outputLabel for="txtnome" value="Nome*"  />
+				<p:inputText id="txtnome" size="40" value="#{mBeanDepartamento.departamento.nome}">
+					<p:tooltip for="txtnome" value="Insira o nome do departamento" />
+				</p:inputText>
+
+				<p:outputLabel for="txtdesc" value="Descrição/Localização detalhada*" />
+				<p:inputTextarea id="txtdesc" rows="10" cols="50"
+					value="#{mBeanDepartamento.departamento.descricao}" maxlength="1000"/>
+				
+				<p:outputLabel for="file">Foto*</p:outputLabel>
+				<p:fileUpload id="file" label="Inserir" fileLimit="1" 
+				fileLimitMessage="Só se pode inserir uma imagem modelo"  
+				cancelLabel="Cancelar" allowTypes="/(\.|\/)(gif|jpe?g|png\.p7m)$/"
+				fileUploadListener="#{mBeanDepartamento.carregarArquivo}"/>
+			</p:panelGrid>
+	
+				<p:messages showDetail="true" showSummary="true" autoUpdate="true" showIcon="true"/>
+				<p:commandButton value="Salvar" actionListener="#{mBeanDepartamento.salvar()}" update="grid">
+					<p:resetInput target="grid"/>
+				</p:commandButton>
+			<br/>
+			<br/>
+			
+	
+		
+		
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+      		 <p:commandButton value="Sim"  type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+       		 <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    	</p:confirmDialog>
+		</p:panel>
+	</h:form>
+	</ui:define>
+	</ui:composition>
+</html>

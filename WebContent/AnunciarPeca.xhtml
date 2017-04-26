@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+<ui:composition template="layout.xhtml">
+
+<ui:define name="conteudo">
+	<h:form>
+	<title>Fazer Anuncio de Peça</title>
+		<f:event listener="#{mBeanAnuncio.edicao}" type="preRenderComponent"/>
+<p:breadCrumb>
+    <p:menuitem value="Página inicial" outcome="inicio" />
+    <p:menuitem value="Anunciar Peça" action="AnunciarPeca.xhtml?faces-redirect=true"/>
+</p:breadCrumb>
+<br/>
+		<p:panel header="Anunciar Peça">
+			<p:panelGrid id="grid" columns="2">
+				
+			
+				<p:outputLabel for="user" value="Anunciante"/>
+				<h:outputText id="user" value="#{mBeanAnuncio.anuncio.anunciante.nome}"/>
+				
+				<p:outputLabel for="anuncio" value="Tipo de Anuncio" />
+				<h:outputText id="anuncio" value="Peça"/>
+
+				<p:outputLabel for="cbxpeca" value="Peça*" />
+				
+				<p:selectOneMenu id="cbxpeca" converter="convertePeca" value="#{mBeanAnuncio.anuncio.peca}" 
+				  valueChangeListener="#{mBeanAnuncio.habilitar}" requiredMessage="Selecione uma peça!"> 
+					<f:selectItem itemValue="#{null}" itemLabel="Selecione uma peça"/>
+	   				<f:selectItems value="#{mBeanPeca.listar()}"/>
+	   				<p:ajax update="descricao file" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel for="descricao" value="Descrição da Peça"/>
+				<p:inputTextarea id="descricao"	value="#{mBeanAnuncio.anuncio.peca.descricao}" autoResize="true"  cols="90" readonly="true" />
+		
+				<p:outputLabel for="descricaoAnuncio" value="Descrição Anuncio*"/>
+				<p:inputTextarea id="descricaoAnuncio"	value="#{mBeanAnuncio.anuncio.descricao}" rows="10" cols="90"/>
+				
+				<p:outputLabel for="file">Fotos</p:outputLabel>
+				<h:panelGrid columns="2">
+				
+				<p:fileUpload id="file" label="Inserir" dragDropSupport="false" required="true" fileLimit="20" multiple="true"
+					disabled="#{mBeanAnuncio.fechado}" fileLimitMessage="Fotos suficientes para esse anuncio (20 imagens)!"  
+					cancelLabel="Cancelar" allowTypes="/(\.|\/)(gif|jpe?g|png\.p7m)$/"
+					fileUploadListener="#{mBeanAnuncio.carregarArquivo}" />
+				
+				<p:galleria style="left: 150px" rendered="#{mBeanAnuncio.editar}"  var="foto" value="#{mBeanAnuncio.anuncio.foto}" panelWidth="200" panelHeight="170">
+						<p:graphicImage library="Imagens/Anuncio/Peca" name="#{foto.nome}" width="200px" height="170px" />
+				</p:galleria>
+				</h:panelGrid>
+			
+				<p:outputLabel for="vlrpeca" value="Valor da Peça*"/>
+				<p:inputMask id="vlrpeca" converter="javax.faces.Float" mask="9999,99" 
+				value="#{mBeanAnuncio.anuncio.valorFinal}" 
+				placeholder="R$ 0000,00">
+					<f:convertNumber locale="pt_BR" />
+				</p:inputMask>
+				</p:panelGrid>
+				
+				<p:messages showDetail="true" showSummary="true" autoUpdate="true" showIcon="true" />
+				<p:commandButton value="Anunciar" actionListener="#{mBeanAnuncio.salvar()}" update="grid">
+					<p:resetInput target="grid"/>
+				</p:commandButton>
+			
+		</p:panel>
+	</h:form>
+	</ui:define>
+	</ui:composition>
+</html>

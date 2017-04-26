@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="layout.xhtml">
+
+<ui:define name="conteudo">
+	<h:form>
+	<title>#{mBeanLogin.anuncio.peca.nome}</title>
+		<p:breadCrumb>
+    		<p:menuitem value="Página inicial" outcome="inicio" />
+    		<p:menuitem value="#{mBeanLogin.anuncio.peca.nome}" action="FormPeca.xhtml?faces-redirect=true"/>
+		</p:breadCrumb>
+	<br/>
+		<p:panel header="Visualizar">
+			<p:panelGrid id="grid" columns="2">
+				
+				Anunciante
+				<h:outputText value="#{mBeanLogin.anuncio.anunciante.nome}"/>
+				
+				Nome da Peça
+				<h:outputText value="#{mBeanLogin.anuncio.peca.nome}"/>
+
+				Descrição do anuncio
+				<p:inputTextarea id="descricao"	value="#{mBeanLogin.anuncio.descricao}" autoResize="true"  
+				cols="110" readonly="true" />
+				
+				Fixa
+				<h:selectBooleanCheckbox readonly="true" value="#{mBeanLogin.anuncio.peca.fixo}">
+					<f:converter converterId="javax.faces.Boolean"/>
+				</h:selectBooleanCheckbox>	
+				
+				
+				Fotos
+				<p:galleria var="foto" value="#{mBeanLogin.anuncio.foto}" panelWidth="805" panelHeight="313">
+					<p:graphicImage library="Imagens/Anuncio/Peca" name="#{foto.nome}" width="805px" height="313px" />
+				</p:galleria>
+				
+				
+				Valor
+				<h:outputText value="#{mBeanLogin.anuncio.valorFinal}">
+					<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR"/>
+				</h:outputText>
+				
+				</p:panelGrid>
+				<p:commandButton value="Comprar" rendered="#{!mBeanLogin.logado}" />
+			
+				<p:messages showDetail="true" showSummary="true" autoUpdate="true" />
+		</p:panel>
+		
+		
+	</h:form>
+	</ui:define>
+	</ui:composition>
+</html>

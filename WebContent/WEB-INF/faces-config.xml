@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+	
+<navigation-rule>
+	<from-view-id>/TelaDeLogin.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>sucesso</from-outcome>
+		<to-view-id>/index.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+
+<navigation-rule>
+<from-view-id>/*</from-view-id>
+	<navigation-case>
+		<from-outcome>inicio</from-outcome>
+		<to-view-id>/index.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>login</from-outcome>
+		<to-view-id>/TelaDeLogin.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>usuario</from-outcome>
+		<to-view-id>/CadastrarUsuario.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>departamento</from-outcome>
+		<to-view-id>/CadastrarDepartamento.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>estado</from-outcome>
+		<to-view-id>/CadastrarEstado.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>marca</from-outcome>
+		<to-view-id>/CadastrarMarca.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>peça</from-outcome>
+		<to-view-id>/CadastrarPeca.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>carro</from-outcome>
+		<to-view-id>/CadastrarVeiculo.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>cidade</from-outcome>
+		<to-view-id>/CadastrarCidade.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>anuncioPeça</from-outcome>
+		<to-view-id>/AnunciarPeca.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>anuncioVeículo</from-outcome>
+		<to-view-id>/AnunciarVeiculo.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>pav</from-outcome>
+		<to-view-id>/PAVeiculos.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>pap</from-outcome>
+		<to-view-id>/PAPeca.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>conta</from-outcome>
+		<to-view-id>/MinhaConta.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>acessório</from-outcome>
+		<to-view-id>/CadastrarAcessorios.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+<navigation-rule>
+	<from-view-id>/PAVeiculos.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>vercarro</from-outcome>
+		<to-view-id>/FormVeiculo.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+<navigation-rule>
+	<from-view-id>/PAVeiculos.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>vercarro</from-outcome>
+		<to-view-id>/FormVeiculo.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+<navigation-rule>
+	<from-view-id>/PAPeca.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>verpeca</from-outcome>
+		<to-view-id>/FormPeca.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+<navigation-rule>
+	<from-view-id>/MinhaConta.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>conta</from-outcome>
+		<to-view-id>/MinhaConta.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>anuncio</from-outcome>
+		<to-view-id>/MeusAnuncios.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+<navigation-rule>
+	<from-view-id>/MeusAnuncios.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>conta</from-outcome>
+		<to-view-id>/MinhaConta.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>anuncio</from-outcome>
+		<to-view-id>/MeusAnuncios.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+</faces-config>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<ui:composition template="layout.xhtml">
+
+<ui:define name="conteudo">
+	
+
+<h:form id="formindex">
+
+	<title>Página Inicial</title>
+	
+	<h1 align="center" class="titulo">Peças &amp; Carros<br/>Antigos</h1>	
+		
+	<div id="divVeiculo">
+	<p:galleria var="anunv" value="#{mBeanAnuncio.MelhoresAnunciosDeVeiculos()}" panelHeight="333" panelWidth="500" 
+	showCaption="#{!mBeanLogin.vazio}" showFilmstrip="#{!mBeanLogin.vazio}">
+		<p:commandButton value="Ir até Anuncio" action="#{mBeanLogin.verAnuncios}" style="position: absolute; left: 200px" 
+		rendered="#{!mBeanLogin.vazio}">
+			<f:setPropertyActionListener value="#{anunv}" target="#{mBeanLogin.anuncio}"/>
+		</p:commandButton>
+		<p:graphicImage library="Imagens/Anuncio/Veiculo" name="#{anunv.primeiraFoto}" height="333" width="500" 
+		title="R$ #{anunv.valorFinal}"/>
+	</p:galleria>
+	</div>
+	
+	<div id="divPeca">
+	<p:galleria var="anunp" value="#{mBeanAnuncio.MelhoresAnunciosDePecas()}" panelHeight="333" panelWidth="500" 
+	showCaption="#{!mBeanLogin.vaziop}" showFilmstrip="#{!mBeanLogin.vaziop}">
+		<p:commandButton value="Ir até Anuncio" action="#{mBeanLogin.verAnuncios}" style="position: absolute; left: 200px" 
+		rendered="#{!mBeanLogin.vaziop}">
+			<f:setPropertyActionListener value="#{anunp}" target="#{mBeanLogin.anuncio}"/>
+		</p:commandButton>
+		<p:graphicImage library="Imagens/Anuncio/Peca" name="#{anunp.primeiraFoto}" height="333" width="500" 
+		title="R$ #{anunp.valorFinal}"/>
+	</p:galleria>
+	</div>
+
+	
+
+	
+	<p id="paragrafo">Projeto Integrador IV </p>
+	</h:form>
+	</ui:define>
+	</ui:composition>
+
+</html>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="layout.xhtml">
+
+<ui:define name="conteudo">
+	<h:form id="form">
+		<title>Cadastro de Cidade</title>
+		<p:breadCrumb>
+    <p:menuitem value="Página inicial" outcome="inicio" />
+    <p:menuitem value="Cadastrar Cidade" action="CadastrarCidade.xhtml?faces-redirect=true"/>
+</p:breadCrumb>
+<br/>
+		
+		<p:panel header="Cadastrar Cidade">
+			<p:panelGrid id="grid" columns="2">
+
+				<p:outputLabel for="nome" value="Nome*"/>
+				<p:inputText id="nome" value="#{mBeanCidade.cidade.nomeCidade}"/>
+
+			</p:panelGrid>
+			<br/>
+			<p:messages showDetail="true" showSummary="true" autoUpdate="true" showIcon="true"/>
+			<p:commandButton value="Salvar" actionListener="#{mBeanCidade.salvar()}" update="grid dlc">
+				<p:resetInput target="grid"/>
+			</p:commandButton>
+			<p:commandButton value="Nova Cidade" actionListener="#{mBeanCidade.reset()}" update="grid">
+				<p:resetInput target="grid"/>
+			</p:commandButton>
+			<br/>
+			<p:dataList id="dlc" value="#{mBeanCidade.cidades}" var="cidade" emptyMessage="Sem Cidades"
+				type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
+				<f:facet name="header">Cidades</f:facet>
+					<p:commandLink styleClass="ui-icon ui-icon-trash" title="Deletar" style="float:left;margin-right:10px"
+					action="#{mBeanCidade.deletar()}" update="form:dlc">
+						<f:setPropertyActionListener value="#{cidade}" target="#{mBeanCidade.cidade}"/>
+						<h:outputText value="#{cidade.nomeCidade}"/>
+						<p:confirm header="Deletar cidade" message="Tem certeza?" icon="ui-icon-alert"/>
+					</p:commandLink>
+					<p:commandLink title="Clique na cidade para editá-la" update="form:grid">
+						<f:setPropertyActionListener value="#{cidade}" target="#{mBeanCidade.cidade}"/>
+						<h:outputText value="#{cidade.nomeCidade}"/>
+					</p:commandLink>
+				</p:dataList>
+   			 
+   			 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+      		  	<p:commandButton value="Sim"  type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+       			<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    		</p:confirmDialog>
+		</p:panel>
+	</h:form>
+</ui:define>
+</ui:composition>
+</html>

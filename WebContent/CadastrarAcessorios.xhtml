@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="layout.xhtml">
+
+<ui:define name="conteudo">
+	<h:form id="form">
+		<title>Cadastro de Acessório</title>
+		<p:breadCrumb>
+    <p:menuitem value="Página inicial" outcome="inicio" />
+    <p:menuitem value="Cadastrar Acessórios" action="CadastrarAcessorios.xhtml?faces-redirect=true"/>
+</p:breadCrumb>
+<br/>
+		
+		<p:panel header="Cadastrar Acessório">
+			<p:panelGrid id="grid" columns="2">
+
+				<p:outputLabel for="nome" value="Nome*"/>
+				<p:inputText id="nome" value="#{mBeanAcessorio.acessorio.nome}"/>
+
+				<p:outputLabel for="inf" value="Descrição"/>
+				<p:inputTextarea rows="10" cols="100" id="inf" value="#{mBeanAcessorio.acessorio.descricao}"/>
+
+				<p:outputLabel for="fixo" value="É fixa?" />
+				<p:selectBooleanButton id="fixo" converter="javax.faces.Boolean" offLabel="Não" onLabel="Sim"
+					onIcon="ui-icon-check" offIcon="ui-icon-close" value="#{mBeanAcessorio.acessorio.fixo}" />
+				
+				<p:outputLabel for="mt" value="Material" />
+				<p:selectOneMenu id="mt" value="#{mBeanAcessorio.acessorio.material}">
+					<f:selectItem itemLabel="Selecione um material" itemValue="#{null}" />
+					<f:selectItems value="#{mBeanAcessorio.materiais}" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel for="dpt" value="Departamento*" />
+				<p:selectOneMenu id="dpt"
+					value="#{mBeanAcessorio.acessorio.departamento}"
+					converter="converteDepartamento">
+					<f:selectItem itemLabel="Selecione um departamento" itemValue="#{null}" />
+					<f:selectItems value="#{mBeanDepartamento.listar()}"  />
+				</p:selectOneMenu>
+				
+				<p:outputLabel for="file">Foto*</p:outputLabel>
+				<p:fileUpload id="file" label="Inserir" fileLimit="1" 
+					fileLimitMessage="Só se pode cadastrar uma imagem"  cancelLabel="Cancelar" 
+					allowTypes="/(\.|\/)(gif|jpe?g|png\.p7m)$/"
+					fileUploadListener="#{mBeanAcessorio.carregarArquivo}" />
+			</p:panelGrid>
+			<br/>
+			<p:messages showDetail="true" showSummary="true" autoUpdate="true" showIcon="true"/>
+				<p:commandButton value="Salvar" actionListener="#{mBeanAcessorio.salvar()}" update="grid dta">
+					<p:resetInput target="grid"/>
+				</p:commandButton>
+				<p:commandButton value="Novo Acessório" actionListener="#{mBeanAcessorio.reset()}" update="grid">
+					<p:resetInput target="grid"/>
+				</p:commandButton> 
+			<br/>
+			<br/>
+			
+			<p:dataTable id="dta"  value="#{mBeanAcessorio.acessorios}" var="acessorio" emptyMessage="Não há acessórios cadastrados">
+				<p:column headerText="Nome"  sortBy="#{acessorio.nome}">
+					<h:outputText value="#{acessorio.nome}"/>
+				</p:column>
+				<p:column headerText="Descrição"  sortBy="#{acessorio.descricao}">
+					<h:inputTextarea readonly="true" value="#{acessorio.descricao}" rows="4" cols="20"/>
+				</p:column>
+				<p:column headerText="Departamento" sortBy="#{acessorio.departamento.nome}">
+					<h:outputText value="#{acessorio.departamento.nome}"/>
+				</p:column>
+				<p:column headerText="Fixa">
+					<h:outputText value="#{acessorio.fixo ? 'Sim': 'Não'}"/>
+				</p:column>
+				<p:column headerText="Material" sortBy="#{acessorio.material}">
+					<h:outputText value="#{acessorio.material}"/>
+				</p:column>
+				<p:column headerText="Foto" width="45">
+					<h:graphicImage library="Imagens/Cadastro/Acessorio" name="#{acessorio.foto.nome}" height="70" width="76"/>
+				</p:column>
+				<p:column headerText="Gerenciar" width="90">
+					<p:commandButton icon="fa fa-edit" title="Editar" update="form:grid">
+						<f:setPropertyActionListener value="#{acessorio}" target="#{mBeanAcessorio.acessorio}"/>
+					</p:commandButton>
+					<p:commandButton icon="fa fa-trash" action="#{mBeanAcessorio.deletar()}" title="Deletar" update="form:dta">
+						<f:setPropertyActionListener value="#{acessorio}" target="#{mBeanAcessorio.acessorio}"/>
+						<p:confirm header="Deletar peça" icon="ui-icon-alert" message="Tem certeza disto?"/>
+					</p:commandButton>				
+				</p:column>
+			</p:dataTable>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+      		  	<p:commandButton value="Sim"  type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+       			<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    		</p:confirmDialog>
+		</p:panel>
+	</h:form>
+</ui:define>
+</ui:composition>
+</html>

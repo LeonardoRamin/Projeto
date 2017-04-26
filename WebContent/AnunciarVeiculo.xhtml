@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="layout.xhtml">
+
+<ui:define name="conteudo">
+	<h:form>
+	<title>Fazer Anuncio Veículo</title>
+		
+		<f:event listener="#{mBeanAnuncio.edicao}" type="preRenderComponent"/>
+		
+	<p:breadCrumb>
+    	<p:menuitem value="Página inicial" outcome="inicio" />
+    	<p:menuitem value="Anunciar Veículo" action="AnuncioVeiculo.xhtml?faces-redirect=true"/>
+	</p:breadCrumb>
+<br/>
+
+		<p:panel header="Anunciar Veículo">
+			<h:inputHidden value="#{mBeanAnuncio.anuncio.id}"/>
+			<p:panelGrid id="grid" columns="2">
+				
+				
+				<p:outputLabel for="user" value="Anunciante"/>
+				<h:outputText id="user" value="#{mBeanAnuncio.anuncio.anunciante.nome}"/>
+				
+				<p:outputLabel for="anuncio" value="Tipo de Anuncio" />
+				<h:outputText id="anuncio" value="Veículo"/>
+
+				<p:outputLabel for="cbxveiculo" value="Veículo*" />
+				<p:selectOneMenu id="cbxveiculo" valueChangeListener="#{mBeanAnuncio.habilitarVeiculo}" > 
+					<f:selectItem itemValue="#{null}" itemLabel="Selecione um veículo"/>
+	   				<f:selectItems value="#{mBeanVeiculo.veiculos}" var="vei" itemLabel="#{vei.modelo} - #{vei.ano}" itemValue="#{vei.id}"/>
+	   				<p:ajax update="apelido file picklist"/>
+				</p:selectOneMenu>
+				
+				<p:outputLabel for="apelido" value="Apelido"/>
+				<h:outputText id="apelido"	value="#{mBeanAnuncio.anuncio.veiculo.apelido}" />
+		
+				<p:outputLabel for="descricaoAnuncio" value="Descrição Anuncio*"/>
+				<p:inputTextarea id="descricaoAnuncio"	value="#{mBeanAnuncio.anuncio.descricao}" rows="10" cols="90"
+				maxlength="1000"/>
+				
+				<p:outputLabel for="cor" value="Cor*"/>
+				<p:selectOneMenu id="cor" value="#{mBeanAnuncio.anuncio.cor}" >
+					<f:selectItem itemLabel="Selecione uma cor" itemValue="#{null}" />
+					<f:selectItems value="#{mBeanAnuncio.cores}"/>
+				</p:selectOneMenu> 
+				
+				<p:outputLabel for="combustivel" value="Combustível"/>
+				<p:selectOneMenu id="combustivel" value="#{mBeanAnuncio.anuncio.combustivel}">
+					<f:selectItem itemLabel="Álcool" itemValue="Álcool"/>
+					<f:selectItem itemLabel="Gasolina" itemValue="Gasolina"/>
+					<f:selectItem itemLabel="Gás" itemValue="Gás"/>			
+				</p:selectOneMenu>
+				
+				<p:outputLabel for="motor" value="Motor*"/>
+				<p:selectOneMenu id="motor" value="#{mBeanAnuncio.anuncio.motor}">
+					<f:selectItem itemLabel="Selecione um motor" itemValue="#{null}"/>
+					<f:selectItems value="#{mBeanAnuncio.motores}" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel for="porta" value="Número de portas"/>
+				<p:spinner id="porta" size="1"  min="2" max="4" maxlength="1" converter="javax.faces.Integer" 
+				value="#{mBeanAnuncio.anuncio.portas}"/>
+			
+				
+				<p:outputLabel for="km" value="Km rodados*"/>
+				<p:inputMask id="km" converter="javax.faces.Integer" mask="9?99999" 
+				value="#{mBeanAnuncio.anuncio.kmRodados}" 
+				placeholder="0 KM" size="8"/>
+				
+				<p:outputLabel for="picklist" value="Acessórios"/>
+				<p:pickList id="picklist" converter="convertePickListAcessorio" value="#{mBeanAnuncio.dualListModelAcessorio}" var="ac"
+				itemLabel="#{ac.nome}" itemValue="#{ac}"
+				addAllLabel="Add Tudo" removeAllLabel="Remover Tudo" removeLabel="Remover">
+				<f:facet name="sourceCaption">Fora</f:facet>
+				<f:facet name="targetCaption">Equipado</f:facet>
+				</p:pickList>
+				
+				<p:outputLabel for="file">Fotos*</p:outputLabel>
+					<h:panelGrid columns="2">
+				<p:fileUpload id="file"  dragDropSupport="false"  label="Inserir" fileLimit="20" multiple="true" 
+				disabled="#{mBeanAnuncio.fechado}" fileLimitMessage="Fotos suficientes para esse anuncio (20 imagens)"  
+				cancelLabel="Cancelar" allowTypes="/(\.|\/)(gif|jpe?g|png\.p7m)$/"
+				fileUploadListener="#{mBeanAnuncio.carregarArquivo}" />
+					
+					
+				<p:galleria style="left: 150px" rendered="#{mBeanAnuncio.editar}"  var="foto" value="#{mBeanAnuncio.anuncio.foto}" panelWidth="200" panelHeight="170">
+						<p:graphicImage library="Imagens/Anuncio/Veiculo" name="#{foto.nome}" width="200px" height="170px" />
+				</p:galleria>
+					</h:panelGrid>
+					
+					
+				<p:outputLabel for="vlrveiculo" value="Valor Final*"/>
+				<p:inputMask id="vlrveiculo" converter="javax.faces.Float" mask="999999,99" 
+				value="#{mBeanAnuncio.anuncio.valorFinal}" 
+				placeholder="R$ 000000,00" size="10">
+				<f:convertNumber locale="pt_BR"/>
+				</p:inputMask>
+				
+				</p:panelGrid>
+				
+				<p:messages showDetail="true" showSummary="true" autoUpdate="true" showIcon="true"/>
+				<p:commandButton value="Anunciar" action="#{mBeanAnuncio.salvar}" update="grid">
+					<p:resetInput target="grid"/>
+				</p:commandButton>
+				
+		</p:panel>
+	</h:form>
+	</ui:define>
+</ui:composition>
+</html>
